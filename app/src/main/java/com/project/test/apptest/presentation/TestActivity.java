@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.project.test.apptest.R;
@@ -42,6 +43,7 @@ public class TestActivity extends AppCompatActivity {
     }
     
     void updateNotification(List<NotificationModel> notificationsList) {
+        Log.e("TEST", "TEST");
         notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
@@ -49,15 +51,15 @@ public class TestActivity extends AppCompatActivity {
         
         for (NotificationModel model : notificationsList) {
             i++;
-            NotificationCompat.Builder builder =
+            Notification builder =
                     new NotificationCompat.Builder(this)
                             .setSmallIcon(android.R.drawable.ic_dialog_email)
                             .setContentTitle(model.getSubject())
                             .setContentText(model.getText())
                             .setAutoCancel(true)
-                            .setContentIntent(createPendingIntent(model.getText(), i));
-            Notification notification = builder.build();
-            notificationManager.notify(i, notification);
+                            .setContentIntent(createPendingIntent(model.getText(), i))
+                            .getNotification();
+            notificationManager.notify(i, builder);
         }
         
     }
